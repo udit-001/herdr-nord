@@ -74,6 +74,11 @@ Colors: the Nord palette throughout, `#2e3440` surfaces, `#eceff4` text,
 - **No press states, no color transitions, no reduced-motion signal** in
   gpui-kit today. Hover snaps; motion is `.transition` / `.loop` only.
   Don't promise fluidity the platform can't draw.
+- **One animated element, ever.** Every spinning or looping element adds
+  its damaged region to every frame: three spinners measured 26.6% CPU on
+  a quiet window, one spinner 13.8%, zero 17.1% (the app's own frame loop
+  is the floor). Keep exactly one spinner — the tab bar's — and show
+  working state elsewhere with static dots, badges, and text.
 - **Type scale is 11 / 12 / 13.** Larger only in dialogs (15). A second
   size crept in is a finding, not a tweak.
 - **Selection outranks hover.** `selected` (#434c5e) is brighter than
