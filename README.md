@@ -2,6 +2,8 @@
 
 A Nord layout for [Herdr](https://herdr.dev). Whole interface, one palette, contrast measured not eyeballed.
 
+![Nord for Herdr](preview.png)
+
 ## Install
 
 ```sh
