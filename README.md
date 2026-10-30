@@ -2,8 +2,6 @@
 
 A Nord layout for [Herdr](https://herdr.dev). The whole interface on the Nord palette, with every color pair measured against the surface it renders on.
 
-![Nord for Herdr](preview.png)
-
 ## Install
 
 Run Herdr once so it creates its config folder, then:
