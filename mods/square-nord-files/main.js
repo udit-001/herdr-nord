@@ -134,7 +134,7 @@ export default class Files extends View {
       if (out.length >= TOTAL) break;
       const path = prefix ? `${prefix}/${entry.name}` : entry.name, open = this.folders.has(path), mark = this.marks[`${this.root}/${path}`];
       const at = this.flat.length; this.flat.push({ path, dir: entry.dir });
-      out.push(h_flex().id(`file-${path}`).when(this.at === at, (el) => el.bg(t.selected)).h(28).flex_none().pl(14 + depth * 18).pr(14).gap(7).items_center().cursor_pointer().hover(s => s.bg(t.hover))
+      out.push(h_flex().id(`file-${path}`).mx(6).rounded(5).when(this.at === at, (el) => el.bg(t.selected)).h(28).flex_none().pl(8 + depth * 18).pr(8).gap(7).items_center().cursor_pointer().hover(s => s.bg(t.hover))
         .on_click((_e, cx) => entry.dir ? this.toggle(path, cx) : this.show(path, cx))
         .child(entry.dir ? svg(`mods/square-nord-files/chevron-${open ? "down" : "right"}.svg`).size(12).flex_none().text_color(t.dim) : div().w(12).flex_none())
         .child(svg(`mods/square-nord-files/${entry.dir ? "folder" : "file"}.svg`).size(14).flex_none().text_color(t.muted))

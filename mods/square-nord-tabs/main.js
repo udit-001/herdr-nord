@@ -53,12 +53,15 @@ export default class Tabs extends View {
     const space = spaces().find(p => p.active);
     const shown = space?.tabs ?? [];
     const stop = (_e, cx) => cx.stop_propagation();
-    const button = (id, label, action) => div().id(id).w(26).h_full().flex_none().flex().items_center().justify_center().text_color(t.dim).hover(s => s.bg(t.hover).text_color(t.foreground))
-      .on_mouse_down("left", stop).on_click(action).child(label);
+    const button = (id, label, action) => h_flex().id(id).h_full().flex_none().items_center().py(2)
+      .child(div().h(20).w(26).flex_none().flex().items_center().justify_center().rounded(5).text_color(t.dim).hover(s => s.bg(t.hover).text_color(t.foreground))
+      .on_mouse_down("left", stop).on_click(action).child(label));
     const item = (c, i) => {
       const program = panes().find(p => p.tab === c.id && p.program?.agent)?.program ?? panes().find(p => p.tab === c.id)?.program;
       const name = /^tb\d+$/.test(c.name) ? program?.name ?? "Terminal" : c.name;
-      return h_flex().id(`tab-${c.id}`).h_full().px(10).gap(7).items_center().flex_none().text_size(13)
+      return h_flex().id(`tab-wrap-${c.id}`).h_full().flex_none().items_center()
+        .child(
+        h_flex().id(`tab-${c.id}`).h(20).px(10).gap(7).items_center().flex_none().text_size(13).rounded(5).mx(1)
         .bg(c.active ? t.accent : t.chrome).text_color(c.active ? t.accent_foreground : t.muted)
         .hover(s => s.bg(c.active ? t.accent : t.hover))
         .on_mouse_down("left", (e, cx) => { cx.stop_propagation(); this.pressed = i; if (e.click_count === 2) run("tab.rename", { id: c.id }); })
@@ -72,20 +75,21 @@ export default class Tabs extends View {
         .child(div().max_w(170).truncate().child(c.zoomed ? `${name} Z` : name))
         .when(c.status === "working", el => el.child(svg("mods/workspace-chrome/spinner.svg").size(12).flex_none().text_color(c.active ? t.accent_foreground : t.working).spin(900)))
         .when(c.status === "blocked" || c.status === "done", el => el.child(div().size(6).rounded(3).bg(t[c.status]).when(c.active, (el) => el.border(1.5).border_color(t.accent_foreground))))
-        .when(c.active, el => el.child(div().id(`close-${c.id}`).text_color(c.active ? t.accent_foreground : t.dim).on_mouse_down("left", stop).on_click((_e, cx) => { cx.stop_propagation(); run("tab.close", { id: c.id }); }).child(svg("mods/pane/close.svg").size(12))));
+        .when(c.active, el => el.child(div().id(`close-${c.id}`).text_color(c.active ? t.accent_foreground : t.dim).on_mouse_down("left", stop).on_click((_e, cx) => { cx.stop_propagation(); run("tab.close", { id: c.id }); }).child(svg("mods/pane/close.svg").size(12)))));
     };
     const panel = find(layout(), "panel"), body = find(layout(), "panel-body");
     const enabled = shared("workspace.panels") ?? ["files", "changes"];
     this.syncPanel(space, panel, body, enabled);
     const panelButton = (id, label, icon) => {
       const on = panel && !panel.hidden && body?.active === id;
-      return h_flex().id(`panel-${id}`).h_full().px(8).gap(5).flex_none().items_center()
+      return h_flex().id(`panel-${id}`).h_full().flex_none().items_center().py(2).mx(1)
+        .child(h_flex().h(20).px(8).gap(5).flex_none().items_center().rounded(5)
         .text_size(12).bg(on ? t.accent : t.chrome).text_color(on ? t.accent_foreground : t.muted)
         .hover(s => s.bg(on ? t.accent : t.hover)).on_mouse_down("left", stop)
         .on_click(() => {
           if (on) run("layout.hide", { id: "panel" });
           else { run("layout.select", { stack: "panel-body", child: id }); run("layout.show", { id: "panel" }); }
-        }).child(svg(icon).size(14)).child(label);
+        }).child(svg(icon).size(14)).child(label));
     };
     return h_flex().size_full().min_w(0).line_height("20px").items_center().bg(t.chrome)
       .on_mouse_up("left", () => { this.pressed = null; })

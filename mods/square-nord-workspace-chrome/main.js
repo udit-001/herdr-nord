@@ -35,7 +35,7 @@ export default class WorkspaceChrome extends View {
       run("layout.resize", { id: "sidebar", px: collapsed ? (shared("sidebar.width") ?? 268) : 44 });
     };
     if (this.footer) {
-      const row = (id, icon, label, dim, action) => h_flex().id(id).h(34).px(16).gap(9).items_center()
+      const row = (id, icon, label, dim, action) => h_flex().id(id).h(30).mx(8).rounded(6).px(8).gap(9).items_center()
         .text_color(dim ? t.dim : t.muted).hover(s => s.bg(t.hover).text_color(t.foreground)).cursor_pointer()
         .on_click(action).child(svg(`mods/square-nord-workspace-chrome/${icon}.svg`).size(14))
         .when(!collapsed, el => el.child(label));

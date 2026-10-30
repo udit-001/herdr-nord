@@ -247,9 +247,10 @@ export default class MachineAdd extends View {
           : div()
               .id(`ma-add-${target}`)
               .px(10)
-              .h(40)
+              .h(30)
               .flex()
               .items_center()
+              .rounded(6)
               .border_1()
               .border_color(t.input)
               .bg(t.raised)
@@ -264,8 +265,11 @@ export default class MachineAdd extends View {
       .child(
         h_flex()
           .id(`ma-row-${target}`)
+          .mx(6)
+          .rounded(6)
           .h(40)
-          .pl(18)
+          .pl(12)
+          .pr(6)
           .gap(10)
           .items_center()
           .hover((s) => s.bg(t.hover))
@@ -288,11 +292,13 @@ export default class MachineAdd extends View {
       .track_focus(this.handle)
       .on_key_down((e, cx) => this.key(e, cx))
       .w_full()
+      .rounded(8)
       .border_1()
       .border_color(t.border)
       .bg(t.popover)
       .text_color(t.foreground)
-      .child(h_flex().px(18).py(12).items_center().child(div().flex_1().text_size(15).font_semibold().child("Add a machine")).child(div().text_size(11).text_color(t.dim).child("Esc")))
+      .child(h_flex().px(18).py(12).items_center().child(div().flex_1().text_size(15).font_semibold().child("Add a machine"))
+        .child(div().id("ma-close").p(6).rounded(6).flex().items_center().justify_center().text_color(t.dim).hover(s => s.bg(t.hover).text_color(t.foreground)).cursor_pointer().on_click(() => closeOverlay(props().overlay)).child(svg(I("x")).size(13))))
       .child(
         div()
           .px(18)
@@ -310,13 +316,18 @@ export default class MachineAdd extends View {
           .overflow_y_scrollbar()
           .children(
             this.hosts === null
-              ? [div().px(10).py(8).text_size(12).text_color(t.dim).child("Reading ~/.ssh/config…")]
+              ? [h_flex().px(18).py(8).gap(8).items_center().text_size(12).text_color(t.dim)
+                .child(svg(I("spinner")).size(12).flex_none().text_color(t.working).spin(900))
+                .child("Reading ~/.ssh/config…")]
               : hosts.map((h) => this.row(t, h.alias, h.alias, [h.user, h.hostname].filter(Boolean).join("@") || (h.aliases.length ? `also ${h.aliases.join(", ")}` : ""))),
           ),
       )
       .child(div().px(18).pt(14).pb(6).text_size(11).font_medium().text_color(t.dim).child("Or type how ssh reaches it"))
       .child(
         h_flex()
+          .gap(6)
+          .px(12)
+          .pb(12)
           .child(
             Input.new(this.input)
               .flex_1()
@@ -324,6 +335,7 @@ export default class MachineAdd extends View {
               .px(10)
               .gap(6)
               .items_center()
+              .rounded(6)
               .border_1()
               .border_color(this.inputFocused ? t.accent : t.input)
               .bg(t.background)
@@ -337,6 +349,7 @@ export default class MachineAdd extends View {
               .px(14)
               .flex()
               .items_center()
+              .rounded(6)
               .bg(t.solid)
               .text_color(t.solid_foreground)
               .text_size(12)
