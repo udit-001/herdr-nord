@@ -21,4 +21,4 @@ Your window switches immediately. To undo: switch layouts, delete `layouts/squar
 - Rounded pane cards, inset sidebar pills, quiet focus
 - Status colors that survive the active tab
 
-Needs Herdr 0.1.7+ and git. Based on [Herdr's shipped mods](https://github.com/herdrdev/herdr-app) (Apache-2.0, see [NOTICE](NOTICE)).
+Needs Herdr 0.1.7+ and git. Want it different? [RECIPE.md](RECIPE.md) is the brief to rebuild it from. Based on [Herdr's shipped mods](https://github.com/herdrdev/herdr-app) (Apache-2.0, see [NOTICE](NOTICE)).
